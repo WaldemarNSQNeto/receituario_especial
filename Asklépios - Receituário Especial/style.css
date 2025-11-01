@@ -1,0 +1,337 @@
+/* Estilos básicos para o formulário ficar agradável */
+body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o body ocupe no mínimo a altura total da tela */
+}
+body::before {
+    content: "";
+    position: fixed; /* CORREÇÃO: Muda de 'absolute' para 'fixed' */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Aplicando a textura de grade sutil (copiada da tela de login) */
+    background-color: rgb(253, 240, 236); /* Cor de fundo da camada da textura */
+    background-image:
+        linear-gradient(rgba(173, 216, 230, 0.15) 1px, transparent 1px), /* Linhas horizontais */
+        linear-gradient(90deg, rgba(173, 216, 230, 0.15) 1px, transparent 1px); /* Linhas verticais */
+    background-size: 15px 15px; /* Tamanho das células da grade */
+    opacity: 0.5; /* Opacidade da camada da textura */
+    z-index: -1; /* Coloca a textura atrás do conteúdo do body */
+}
+#app-container { max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 8px; }
+.form-section { margin-bottom: 20px; }
+
+/* Estilos para o título principal da tela inicial */
+.main-title-container {
+    display: flex; /* Usa flexbox para alinhar a imagem e o texto */
+    align-items: center; /* Alinha verticalmente no centro */
+    flex-direction: column; /* Coloca a imagem acima do texto */
+    margin-bottom: 10px; /* Espaçamento abaixo do título */
+}
+.header-icon { height: 60px; margin-top: 20px; margin-bottom: 10px; } /* Tamanho e espaçamento da imagem */
+.header-divider {
+    width: 100%; /* Linha ocupa 80% da largura do container */
+    border: 0;
+    border-top: 1px solid #0c0c0c;
+    margin-top: 0px; /* Espaço acima da linha */
+}
+.highlight-special {
+    color: #c82333; /* Um tom de vermelho para dar ênfase */
+    font-style: italic;
+}
+
+
+.form-group { margin-bottom: 10px; }
+label { display: block; margin-bottom: 5px; font-weight: bold; }
+input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Adiciona uma borda sutil para melhor definição */
+    border-radius: 4px; /* Cantos levemente arredondados */
+}
+
+/* --- Estilos para o Tooltip do campo Qnt. --- */
+.form-group {
+    position: relative; /* Necessário para posicionar o tooltip */
+}
+
+.qnt-tooltip {
+    visibility: hidden; /* Escondido por padrão */
+    opacity: 0;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 11px; /* Deixa a fonte pequena e sutil */
+    position: absolute;
+    z-index: 1;
+    bottom: 105%; /* Posição acima do campo */
+    left: 50%;
+    margin-left: -110px; /* Metade da largura para centralizar */
+    transition: opacity 0.3s;
+}
+
+.qnt-limited:hover .qnt-tooltip {
+    visibility: visible; /* Mostra o tooltip no hover */
+    opacity: 1;
+}
+.medication-item { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px; position: relative; }
+.remove-item-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    border: none;
+    background-color: #e0e0e0;
+    color: #555;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* A mágica da animação suave acontece aqui */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Aumenta a área de clique (hitbox) do botão de remover */
+.remove-item-btn::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    bottom: -5px;
+    left: -5px;
+}
+.remove-item-btn:hover {
+    background-color: #dc3545; /* Vermelho 'perigo' */
+    color: #fff;
+    transform: scale(1.2); /* Aumenta o tamanho em 20% */
+}
+.grid-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr; /* 4 colunas, com a 2ª (Item) sendo mais larga */
+    gap: 10px;
+}
+.grid-row-comprador {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    align-items: end;
+}
+
+.action-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.date-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para os botões de ação */
+.btn-primary, .btn-secondary, .btn-success, .btn-warning {
+    padding: 10px 11px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 10pt;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Efeito de "flutuar" */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px); /* Efeito de "flutuar" */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    margin-left: 10px; /* Não é mais necessário com a nova estrutura */
+}
+
+.btn-success {
+    background-color: #f1f3ef; /* Verde sucesso, profissional */
+    color: rgb(0, 0, 0);
+    width: 100%; /* Ocupa toda a largura da seção */
+    padding: 10px; /* Um pouco mais de preenchimento para dar mais peso */
+    font-size: 12pt; /* Fonte ligeiramente maior */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Verde mais escuro no hover */
+    color: rgb(255, 255, 255);
+    transform: translateY(-2px); /* Efeito de "flutuar" */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Sombra mais pronunciada */
+}
+
+.btn-warning {
+    background-color: #f1d88d; /* Amarelo "aviso" */
+    color: #212529; /* Texto escuro para bom contraste */
+    width: 100%;
+    padding: 10px;
+    font-size: 12pt;
+    margin-top: 10px; /* Espaço entre os botões */
+}
+
+.btn-warning:hover {
+    background-color: #f3ba0e; /* Amarelo mais escuro no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-success:active {
+    transform: translateY(0); /* Efeito de "pressionar" ao clicar */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra menor, como se estivesse pressionado */
+}
+
+/* --- Estilos para a nova seção de data --- */
+/* Efeito de animação "Surpreenda-me!" */
+#date-options-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px; /* Adiciona o espaçamento solicitado */
+    /* Estado inicial (oculto) */
+    opacity: 0;
+    transform: translateX(-20px); /* Começa um pouco à esquerda */
+    pointer-events: none; /* Impede cliques quando oculto */
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animação suave com um leve "bounce" */
+}
+
+#date-options-container.visible {
+    /* Estado final (visível) */
+    opacity: 1;
+    transform: translateX(0); /* Volta para a posição original */
+    pointer-events: auto; /* Permite cliques quando visível */
+}
+
+/* Animação para o campo de data */
+#custom-date-input {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    padding: 5px 8px; /* Reduz o padding para alinhar com o botão */
+    font-size: 9pt; /* Reduz a fonte para alinhar com o botão */
+    width: 85px; /* Define uma largura fixa para o campo de data */
+    transform: translateX(0);
+}
+
+#custom-date-input.hidden {
+    opacity: 0;
+    transform: translateX(-10px);
+    pointer-events: none;
+    width: 0; /* Faz o campo encolher ao desaparecer */
+}
+
+.btn-date-option {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 9pt;
+    transition: all 0.2s ease-in-out; /* Adiciona a transição suave */
+}
+
+.btn-date-option:hover {
+    transform: translateY(-2px); /* Efeito de "flutuar" */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra sutil */
+}
+
+.btn-date-option.active {
+    background-color: #207544; /* Verde */
+    color: white;
+    border-color: #1a663a;
+}
+
+/* Estilo para campos de input com erro de validação */
+.input-error {
+    border-color: #dc3545 !important; /* Borda vermelha para indicar erro */
+    box-shadow: 0 0 0 1px rgba(220, 53, 69, 0.25); /* Sombra sutil de erro */
+}
+
+/* Estilo para campos de input com sucesso na validação */
+.input-success {
+    border-color: #28a745 !important; /* Borda verde para indicar sucesso */
+    box-shadow: 0 0 0 1px rgba(40, 167, 69, 0.25); /* Sombra sutil de sucesso */
+}
+
+#date-custom-area {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+/* --- Fim dos estilos de data --- */
+
+/* Estilo para o botão "Datar" quando estiver ativo (ON) */
+.btn-secondary.active {
+    background-color: #28a745; /* Mesma cor do botão de sucesso para indicar 'ligado' */
+    color: #fff;
+    border-color: #28a745;
+}
+
+/* Classe genérica para esconder elementos na tela */
+.hidden {
+    display: none;
+}
+
+/* Esconde a área de impressão na tela normal */
+#print-output {
+    display: none;
+}
+
+/* Estilos para o rodapé da página principal */
+.site-footer {
+    color: #6c757d;  
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+    margin-left: 0pt;
+
+    padding: 20px;   
+    font-size: 0.8em;    
+    padding: 4px;    
+    line-height: 1.2;
+}
+
+.footer-divider {
+    width: 100%; /* Linha ocupa metade da largura do container */
+    border: 0;
+    border-top: 1px solid #6c757d; /* Cor cinza bem clara */
+    margin-bottom: 0px; /* Espaço entre a linha e o texto do rodapé */
+}
+
+
+.logo-container {
+    display: inline-block; /* Ajusta ao tamanho da imagem */
+    border: 1px solid #000; /* Borda preta */
+    border-radius: 10px; /* Bordas arredondadas */
+    padding: 2px; /* Pequeno espaço para evitar que a borda encoste na imagem */
+}
+
+.logo-container img {
+    display: block; /* Remove espaços extras ao redor da imagem */
+    border-radius: 10px; /* Opcional: arredonda a própria imagem */
+}

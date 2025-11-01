@@ -1,0 +1,341 @@
+/* Regras que SÓ aplicam ao imprimir */
+@media print {
+    @page {
+        size: A4 landscape; /* A4 deitada */
+        margin: 0.3cm 0.5cm;
+    }
+
+    html, body {
+        display: flex !important; /* Adicionado para ser o container flex principal */
+        justify-content: center; /* Centraliza o conteúdo da impressão */
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        background: #fff;
+        font-family: 'Times New Roman', Times, serif; /* Mantido */
+        font-size: 9pt;
+        color: #000;
+    }
+    
+    body > header, #app-container, .site-footer {
+        display: none !important;
+    }
+
+    #print-output {
+        display: flex !important;
+        width: 100% !important;
+        height: 100% !important;
+        page-break-inside: avoid !important;
+        flex-direction: row !important; /* Mantido para organizar as vias */
+    }
+
+    .via-container {
+        width: 50% !important;
+        height: 100% !important;
+        padding: 0 0.25cm !important; /* Adiciona um respiro lateral */
+        margin: 0.45cm 0 0 0 !important; /* Adiciona margem superior de 0.25cm */
+        box-sizing: border-box !important; /* Garante que o padding não quebre o layout */
+        page-break-inside: avoid !important;
+    }
+
+    .print-header {
+        text-align: center;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        width: 13.38cm; /* Largura definida como parâmetro */
+        margin: 0 auto; /* Centraliza o bloco horizontalmente */
+    }
+
+    .print-header h2, .print-header h3 {
+        margin: 0;
+        font-size: 13pt; /* Tamanho ajustado conforme solicitado */
+        font-weight: bold; /* Estilo negrito adicionado */
+        letter-spacing: 1.1px; /* Aumenta o espaçamento entre as letras */
+    }
+
+    .hospital-info {
+        width: 13.38cm; /* Comprimento solicitado */
+        height: 3.58cm; /* Altura solicitada */
+        border: 1px solid #000;
+        border-radius: 0.2cm; /* Quinas arredondadas */
+        margin: 0.23cm auto 0; /* Remove a margem inferior */
+        padding: 0.05cm 0.2cm 0.2cm; /* Remove o padding superior, mantém os outros */
+        box-sizing: border-box;
+        display: flex; /* Mantém o flexbox */
+        flex-direction: column; /* Altera a direção para vertical (logo em cima, texto embaixo) */
+        align-items: center; /* Centraliza os itens horizontalmente */
+        gap: 0.12cm; /* Adiciona o espaçamento entre a logo e o texto */
+        font-size: 10pt;
+        line-height: 1.2;
+    }
+    .hospital-info p {
+        margin: 0;
+    }
+
+    .logo-container {
+        flex-shrink: 0; /* Impede que o container da logo encolha */
+        width: 5.09cm; 
+        height: 1.84cm; 
+        border: 1px solid #000;
+        border-radius: 0.2cm; 
+        margin: 0;
+        padding: 0.1cm;
+        box-sizing: border-box;
+        display: flex; /* Habilita flexbox para centralização */
+        align-items: center; /* Centraliza a imagem verticalmente */
+        justify-content: center; /* Centraliza a imagem horizontalmente */
+    }
+
+    .hospital-details {
+        text-align: center;
+        line-height: 1; /* Remove o espaçamento extra entre as linhas */
+    }
+
+    .hospital-info .logo-container img {
+        height: 1.6cm; /* Apenas esta regra controla o tamanho da logo */
+        width: auto;  /* Garante que a largura se ajuste para manter a proporção */
+    }
+
+    .via-id {
+        width: 3.43cm; /* Largura solicitada */
+        height: 1.01cm; /* Altura solicitada */
+        margin: 0.1cm; /* Margem de 1mm em todos os lados */
+        border-radius: 0.2cm; /* Cantos arredondados */
+        border: 1px solid #000; /* Borda para visualizar a caixa */
+        box-sizing: border-box; /* Garante que padding e borda não aumentem o tamanho total */
+        display: inline-flex; /* Permite centralizar o conteúdo e ser alinhado pelo pai */
+        align-items: center; /* Centraliza o texto verticalmente */
+        justify-content: center; /* Centraliza o texto horizontalmente */
+        text-align: center; /* Fallback para alinhamento de texto */
+        font-size: 10pt; /* Ajusta o tamanho da fonte para caber */
+        line-height: 1.1; /* Ajusta o espaçamento entre linhas para texto multi-linha */
+        font-weight: normal;
+    }
+
+    .identificacao-emitente {
+        width: 13.38cm; /* Largura solicitada */
+        height: 2.14cm; /* Altura solicitada */
+        border: 1px solid #000;
+        border-radius: 0.2cm; /* Quinas arredondadas */
+        margin: 0.01cm auto 0; /* Define a margem superior para o valor exato de 0.01cm */
+        padding: 0.15cm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around; /* Distribui o espaço interno */
+    }
+
+    .identificacao-emitente p:first-child {
+        text-align: center;
+        font-weight: normal;
+        margin-bottom: 0.1cm;
+        font-weight: normal; 
+        margin-top: 0; /* Remove a margem superior */
+        margin-bottom: 0; /* Remove a margem inferior */
+        font-size: 12pt; 
+    }
+
+    .identificacao-emitente p, .dados-paciente p {
+        margin: 2px 0;
+        font-size: 11pt; /* Tamanho da fonte ajustado para 11pt */
+    }
+
+    .dados-paciente {
+        text-align: left; /* Garante o alinhamento à esquerda */
+        margin-top: 0cm; /* Espaçamento ajustado conforme solicitado */
+        font-size: 11pt; /* Garante que o texto do paciente seja 11pt */
+    }
+
+    .main-content-container {
+        width: 13.38cm; /* Comprimento solicitado */
+        height: 11.49cm; /* Altura solicitada */
+        border: 1px solid #000;
+        border-radius: 0.2cm; /* Quinas arredondadas */
+        margin: 0.17cm auto 0 auto; /* Define a margem superior para 0.17cm */
+        padding: 0.2cm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .prescricao-container {
+        flex-grow: 1; /* Faz a prescrição ocupar o espaço restante */
+        margin-top: 0.01cm; /* Espaçamento ajustado conforme solicitado */
+    }
+
+    .prescricao-container p {
+        margin-top: 0;
+        font-size: 11pt; /* Garante que o título "Prescrição:" seja 11pt */
+    }
+
+    .print-via-title {
+        font-size: 10pt; /* Define o tamanho da fonte para o título da via */
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 8px 0 5px 0;
+    }
+
+    .print-med-list {
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .print-med-list li {
+        list-style-type: none;
+        padding-left: 15px;
+        position: relative;
+        margin-bottom: 5px;
+        font-size: 11pt; /* Garante que os itens da prescrição sejam 11pt */
+    }
+
+    .print-med-list li::before {
+        content: attr(data-counter) ".";
+        position: absolute;
+        left: 0;
+    }
+
+    .med-line {
+        display: flex; /* Ativa o layout flexível */
+        align-items: flex-end; /* Alinha a base do texto */
+        width: 100%;
+    }
+
+    .med-filler {
+        flex-grow: 1; /* Faz o elemento crescer e ocupar o espaço */
+        border-bottom: 1px dashed #333; /* Cria a linha pontilhada */
+        margin: 0 5px 9px; /* Ajusta o espaçamento e a posição vertical da linha */
+    }
+
+    .med-main, .med-quantity {
+        flex-shrink: 0; /* Impede que o texto encolha */
+    }
+
+    .usage-details {
+        font-style: italic;
+        font-size: 10pt;
+        padding-left: 15px; /* Alinha com o início do texto do medicamento */
+    }
+
+    .assinatura-emitente-area {
+        margin-top: auto; /* Empurra para o final do espaço flexível */
+        margin-bottom: 0.13cm; /* Espaçamento solicitado antes da seção do comprador */
+        display: flex;
+        justify-content: space-around; /* Garante um espaçamento consistente */
+        align-items: flex-end; /* CRUCIAL: Alinha os itens pela base, colocando as linhas na mesma altura */
+        gap: 1.2cm; /* Espaçamento entre o campo de data e o de assinatura */
+    }
+
+    .data-field-container, .signature-field-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .data-field-container .label, .signature-field-container .label {
+        font-size: 8pt;
+        margin-top: 2px;
+        line-height: 1; /* Garante que a legenda não empurre o alinhamento */
+    }
+
+    .signature-field-container .line {
+        color: transparent; /* Esconde os caracteres de sublinhado */
+        border-bottom: 1px solid #000; /* Cria a linha de 1px */
+    }
+
+    /* ABORDAGEM SIMPLES E DEFINITIVA PARA A LINHA DA DATA */
+    .print-date-text {
+        font-weight: bold; /* Garante que o texto da data seja negrito */
+    }
+
+    .print-date-text.has-extended-underline {
+        border-bottom: 1px solid #000; /* Cria a linha */
+        padding: 0 0.25cm; /* Adiciona 0.25cm de espaço em cada lado, estendendo a linha */
+    }
+
+    /* Classe genérica para esconder elementos na impressão */
+    .hidden {
+        display: none !important;
+    }
+
+
+    .data-field {
+        text-align: right;
+        height: 1.2em;
+        font-size: 9pt;
+    }
+
+    .identificacao-comprador-fornecedor {
+        display: flex;
+        justify-content: space-between;
+        /* border-top: 1px solid #000; */ /* Linha removida conforme solicitado */
+        margin-top: 5px;
+        padding-top: 5px;
+        font-size: 8pt;
+    }
+
+    .comprador, .fornecedor {
+        width: 6.64cm; /* Largura solicitada */
+        height: 2.75cm; /* Altura solicitada */
+        border: 1px solid #000;
+        border-radius: 0.2cm; /* Quinas arredondadas */
+        margin: 0 0.1cm; /* Remove margem superior/inferior, mantém as laterais */
+        padding: 0.1cm;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .comprador p, .fornecedor p {
+        margin: 2px 0;
+        font-size: 9pt; /* Tamanho ajustado conforme solicitado */
+    }
+    .comprador p, .fornecedor p {
+        margin: 0; /* Remove o espaçamento vertical entre os parágrafos do comprador */
+    }
+
+   
+
+    .comprador p:first-child {
+        text-align: center; /* Centraliza o título "IDENTIFICAÇÃO DO COMPRADOR" */
+        font-weight: bold;        
+    }
+
+    .fornecedor {
+        text-align: center;
+        justify-content: space-between; /* Ajusta o espaçamento interno */
+    }
+
+    .signature-area {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+    }
+
+    .signature-field, .date-field-supplier {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .signature-area{
+        position: relative; /* Habilita o posicionamento relativo */
+        bottom: 0.23cm; /* Move o elemento 0.23cm para cima */
+    }
+
+    .signature-field .label, .date-field-supplier .label {
+        font-size: 7pt; /* Fonte pequena para as legendas */
+        margin-top: 2px; /* Adiciona um pequeno espaço acima da legenda */
+    }
+
+    .fornecedor p:first-child {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .page-break {
+        display: none; /* Esconde o divisor de página para que as duas vias fiquem lado a lado */
+    }
+}
