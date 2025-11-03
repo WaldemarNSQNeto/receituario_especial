@@ -70,27 +70,57 @@ document.addEventListener('DOMContentLoaded', () => {
         const itemInput = medItem.querySelector('.med-item');
         const posologyInput = medItem.querySelector('.med-posology');
         const quantityInput = medItem.querySelector('.med-quantity');
+        const usageInput = medItem.querySelector('.med-usage');
+        const posologyTooltip = posologyInput.nextElementSibling; // Pega o span do tooltip da posologia
 
         // Função para verificar o comprimento e aplicar a regra
         const checkLengthAndApplyRule = () => {
-            const combinedLength = itemInput.value.length + posologyInput.value.length;
+            const itemLength = itemInput.value.length;
+            const posologyLength = posologyInput.value.length;
 
+            // --- REGRAS PARA POSOLOGIA ---
+            // Regra 1: Se 'Item' atingir o limite de 41, 'Posologia' é limitada a 6.
+            if (itemLength >= 41) {
+                posologyInput.setAttribute('maxlength', '6');
+                posologyTooltip.textContent = 'Limitado a 6 caracteres pois "Item" atingiu o limite.';
+                // Trunca o valor se já for maior que o novo limite
+                if (posologyInput.value.length > 6) {
+                    posologyInput.value = posologyInput.value.slice(0, 6);
+                }
+            } else {
+                // Caso contrário, 'Posologia' volta ao seu limite padrão de 20.
+                posologyInput.setAttribute('maxlength', '20');
+                posologyTooltip.textContent = 'Limite de 20 caracteres atingido.';
+            }
+
+            // --- REGRAS PARA QUANTIDADE (QNT) ---
+            // Regra 2: Limita 'Qnt' se a soma de 'Item' e 'Posologia' for > 46.
+            const combinedLength = itemInput.value.length + posologyInput.value.length;
             if (combinedLength > 46) {
                 quantityInput.setAttribute('maxlength', '5');
-                quantityInput.parentElement.classList.add('qnt-limited'); // Adiciona a classe para ativar o tooltip
-                // Se o valor atual já for maior, trunca para 5 caracteres
+                quantityInput.parentElement.classList.add('field-limited');
                 if (quantityInput.value.length > 5) {
                     quantityInput.value = quantityInput.value.slice(0, 5);
                 }
             } else {
                 quantityInput.removeAttribute('maxlength');
-                quantityInput.parentElement.classList.remove('qnt-limited'); // Remove a classe
+                quantityInput.parentElement.classList.remove('field-limited');
             }
+
+            // --- CONTROLE DOS AVISOS (TOOLTIPS) ---
+            // Adiciona/remove a classe que mostra o tooltip para cada campo quando seu limite é atingido.
+            itemInput.parentElement.classList.toggle('field-limited', itemInput.value.length >= itemInput.maxLength);
+            posologyInput.parentElement.classList.toggle('field-limited', posologyInput.value.length >= posologyInput.maxLength);
         };
 
         // Adiciona os ouvintes para acionar a verificação ao digitar
         itemInput.addEventListener('input', checkLengthAndApplyRule);
         posologyInput.addEventListener('input', checkLengthAndApplyRule);
+
+        // Adiciona o ouvinte para o campo "Forma de Utilização"
+        usageInput.addEventListener('input', () => {
+            usageInput.parentElement.classList.toggle('field-limited', usageInput.value.length >= usageInput.maxLength);
+        });
         // --- FIM DA NOVA REGRA ---
 
         medList.appendChild(medItem);
@@ -169,6 +199,14 @@ function createViaComponent(patient, buyer, groupedMeds, date) {
 // Função principal: Gerar o documento (AGORA OTIMIZADA)
 function generateDocument() {
     // 1. Coletar dados
+    const patientNameValue = document.getElementById('patient-name').value;
+    // Validação não-bloqueante para o nome do paciente
+    if (!patientNameValue.trim()) {
+        const userConfirmed = confirm('O nome do paciente está em branco. Deseja continuar e imprimir um modelo mesmo assim?');
+        if (!userConfirmed) {
+            return; // Interrompe a execução se o usuário clicar em "Cancelar"
+        }
+    }
     const patientName = document.getElementById('patient-name').value;
     const patientAddress = document.getElementById('patient-address').value;
     const compradorNome = document.getElementById('comprador-nome').value;
@@ -222,41 +260,43 @@ function generateDocument() {
     printOutput.appendChild(via2);
     
     // 6. Abrir janela para impressão (mantenha o resto do código igual)
-    printOutput.style.display = 'block';
-    
-    const printWindow = window.open('', '_blank');
-    if (!printWindow) {
+    try {
+        printOutput.style.display = 'block'; // Torna a área de impressão visível
+
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            alert('A impressão foi bloqueada pelo navegador. Por favor, habilite os pop-ups para este site.');
+            return;
+        }
+
+        const printContent = printOutput.outerHTML;
+        const mainCSS = document.querySelector('link[href="style.css"]').outerHTML;
+        const printCSS = document.querySelector('link[href="print.css"]').outerHTML;
+
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="pt-br">
+            <head>
+                <meta charset="UTF-8">
+                <title>Receituário para Impressão</title>
+                ${mainCSS}
+                ${printCSS}
+            </head>
+            <body>
+                ${printContent}
+            </body>
+            </html>
+        `);
+
+        printWindow.document.close();
+        printWindow.addEventListener('load', () => {
+            printWindow.print();
+            printWindow.close();
+        });
+    } finally {
+        // Este bloco será executado SEMPRE, garantindo que a área de impressão seja escondida.
         printOutput.style.display = 'none';
-        alert('A impressão foi bloqueada pelo navegador. Por favor, habilite os pop-ups para este site.');
-        return;
     }
-    
-    const printContent = printOutput.outerHTML; // Alterado de innerHTML para outerHTML
-    printOutput.style.display = 'none';
-    
-    const mainCSS = document.querySelector('link[href="style.css"]').outerHTML;
-    const printCSS = document.querySelector('link[href="print.css"]').outerHTML;
-    
-    printWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="pt-br">
-        <head>
-            <meta charset="UTF-8">
-            <title>Receituário para Impressão</title>
-            ${mainCSS}
-            ${printCSS}
-        </head>
-        <body>
-            ${printContent}
-        </body>
-        </html>
-    `);
-    
-    printWindow.document.close();
-    printWindow.addEventListener('load', () => {
-        printWindow.print();
-        printWindow.close();
-    });
 }
 
     // Função para alternar o estado da data (ON/OFF)

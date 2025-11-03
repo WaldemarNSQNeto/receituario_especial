@@ -57,7 +57,7 @@ input[type="text"], select {
     position: relative; /* Necessário para posicionar o tooltip */
 }
 
-.qnt-tooltip {
+.field-tooltip {
     visibility: hidden; /* Escondido por padrão */
     opacity: 0;
     width: 220px;
@@ -75,7 +75,7 @@ input[type="text"], select {
     transition: opacity 0.3s;
 }
 
-.qnt-limited:hover .qnt-tooltip {
+.field-limited:hover .field-tooltip {
     visibility: visible; /* Mostra o tooltip no hover */
     opacity: 1;
 }

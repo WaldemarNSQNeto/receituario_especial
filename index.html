@@ -21,8 +21,8 @@
     <main id="app-container">
         <section class="form-section">
             <div class="form-group">
-                <label for="patient-name">Paciente:</label>
-                <input type="text" id="patient-name" placeholder="Nome completo do paciente" maxlength="50">
+                <label for="patient-name">Nome do Paciente:</label>
+                <input type="text" id="patient-name" placeholder="Nome completo do paciente" maxlength="49">
             </div>
             <div class="form-group">
                 <label for="patient-address">Endereço do Paciente:</label>
@@ -71,7 +71,7 @@
         <p>
             ⚕️ Asklépios Soluções Médicas ⚕️<br>
             Startup by Waldemar Neto - Interno Turma LXIX<br>
-            V. Alfa 1.1. (01/11/2025)
+            V. Alfa 1.2. (02/11/2025)
         </p>
     </footer>
 
@@ -102,21 +102,24 @@
                     </select>
                 </div>                <div class="form-group med-item-name">
                     <label>Item:</label>
-                    <input type="text" class="med-item" name="med-item" placeholder="Ex: Amoxicilina + Clavulanato">
+                    <input type="text" class="med-item" name="med-item" placeholder="Ex: Amoxicilina + Clavulanato" maxlength="41">
+                    <span class="field-tooltip">Limite de 41 caracteres atingido.</span>
                 </div>                
                 <div class="form-group">
                     <label>Posologia:</label>
-                    <input type="text" class="med-posology" name="med-posology" placeholder="Ex: 875+125 mg">
+                    <input type="text" class="med-posology" name="med-posology" placeholder="Ex: 875+125 mg" maxlength="20">
+                    <span class="field-tooltip">Limite de caracteres atingido.</span>
                 </div>
                 <div class="form-group">
                     <label>Qnt:</label>
-                    <input type="text" class="med-quantity" placeholder="Ex: 14 comprimidos">
-                    <span class="qnt-tooltip">"Qnt." limitado a 5 caracteres pois "Item" + "Posologia" excederam o limite.</span>
+                    <input type="text" class="med-quantity" placeholder="Ex: 30 comprimidos">
+                    <span class="field-tooltip">"Qnt." limitado a 5 caracteres pois "Item" + "Posologia" excederam o limite.</span>
                 </div>
             </div>
             <div class="form-group">
                 <label>Forma de Utilização:</label>
-                <input type="text" class="med-usage" name="med-usage" placeholder="Ex: Tomar 01 comprimido de 12/12H, por 07 dias">
+                <input type="text" class="med-usage" name="med-usage" placeholder="Ex: Tomar 01 comprimido de 12/12H, por 07 dias" maxlength="61">
+                <span class="field-tooltip">Limite de 61 caracteres atingido.</span>
             </div>
         </div>
     </template>
